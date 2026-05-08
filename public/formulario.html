@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
+    <meta http-equiv="Pragma" content="no-cache">
+    <meta http-equiv="Expires" content="0">
+    <title>Casino | Registro VIP</title>
+    <link rel="stylesheet" href="estilos.css">
+</head>
+<body>
+    <div class="container">
+        <header class="header-principal">
+            <h1>CASINO </h1>
+            <!-- Menú sin lista (no ul/li) -->
+            <div class="nav-pestanas">
+                <a href="index.html" class="pestana-link"> INICIO</a>
+                <a href="historia.html" class="pestana-link"> HISTORIA</a>
+                <a href="tabla.html" class="pestana-link"> SLOTS</a>
+                <a href="formulario.html" class="pestana-link activo">REGISTRO VIP</a>
+                <a href="multimedia.html" class="pestana-link"> MULTIMEDIA</a>
+                <a href="crud-completo.html" class="pestana-link"> CRUD JUEGOS</a>
+            </div>
+        </header>
+
+        <main class="seccion-principal">
+            <h2> Únete al club Royal</h2>
+            <form onsubmit="alert(' ¡Bienvenido al club VIP! Revisa tu correo con el bono de $1000.'); return false;">
+                <label>Nombre completo:</label>
+                <input type="text" required placeholder="Ej: Juan Pérez">
+
+                <label>Correo electrónico:</label>
+                <input type="email" required placeholder="tucorreo@casino.com">
+
+                <label>Moneda favorita:</label>
+                <select>
+                    <option>EUR (€)</option>
+                    <option>USD ($)</option>
+                    <option>BTC (Bitcoin)</option>
+                </select>
+
+                <label>Juego preferido:</label>
+                <input type="text" placeholder="Ej: Ruleta, Blackjack...">
+
+                <button type="submit" class="boton">Registrarse y obtener bono</button>
+            </form>
+        </main>
+    </div>
+
+    <button id="btnModoOscuro" class="boton-modo">🌙</button>
+    <button id="btnVolverArriba">⬆</button>
+    <script src="script.js"></script>
+</body>
+</html>

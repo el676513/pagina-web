@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
+    <meta http-equiv="Pragma" content="no-cache">
+    <meta http-equiv="Expires" content="0">
+    <title> Casino | Tragamonedas</title>
+    <link rel="stylesheet" href="estilos.css">
+    <style>
+        .seccion-principal { padding: 30px; }
+        .tabla-comparativa { margin-bottom: 50px; }
+        .test-container {
+            margin-top: 60px;
+            border-top: 2px solid #cc0000;
+            padding-top: 30px;
+        }
+        .pregunta {
+            margin-bottom: 25px;
+            padding: 10px;
+            background: rgba(0,0,0,0.05);
+            border-radius: 15px;
+        }
+        .pregunta p { margin-bottom: 10px; font-weight: bold; }
+        .pregunta label { margin-right: 20px; display: inline-block; margin-bottom: 5px; }
+        button.boton { margin-top: 20px; }
+        body.modo-oscuro .pregunta { background: rgba(255,255,255,0.05); }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header class="header-principal">
+            <h1> CASINO </h1>
+            <div class="nav-pestanas">
+                <a href="index.html" class="pestana-link"> INICIO</a>
+                <a href="historia.html" class="pestana-link"> HISTORIA</a>
+                <a href="tabla.html" class="pestana-link activo"> SLOTS</a>
+                <a href="formulario.html" class="pestana-link"> REGISTRO VIP</a>
+                <a href="multimedia.html" class="pestana-link"> MULTIMEDIA</a>
+                <a href="crud-completo.html" class="pestana-link"> CRUD JUEGOS</a>
+            </div>
+        </header>
+
+        <main class="seccion-principal">
+            <h2>Top 3 Tragamonedas Más Jugadas</h2>
+            <table class="tabla-comparativa">
+                <tr><th>Nombre</th><th>Proveedor</th><th>RTP (%)</th><th>Volatilidad</th></tr>
+                <tr><td>Starburst</td><td>NetEnt</td><td>96.09%</td><td>Baja</td></tr>
+                <tr><td>Book of Dead</td><td>Play'n GO</td><td>96.21%</td><td>Alta</td></tr>
+                <tr><td>Mega Moolah</td><td>Microgaming</td><td>88.12%</td><td>Muy alta (Jackpot)</td></tr>
+            </table>
+
+            <div class="test-container">
+                <h2> Test: ¿Eres un experto en casinos?</h2>
+                <form id="formCuestionario">
+                    <div class="pregunta">
+                        <p><strong>1. ¿En qué ciudad se encuentra el casino más famoso "Bellagio"?</strong></p>
+                        <label><input type="radio" name="q1" value="macao"> Macao</label>
+                        <label><input type="radio" name="q1" value="lasvegas"> Las Vegas</label>
+                        <label><input type="radio" name="q1" value="montecarlo"> Montecarlo</label>
+                    </div>
+                    <div class="pregunta">
+                        <p><strong>2. ¿Qué significa "RTP" en los tragamonedas?</strong></p>
+                        <label><input type="radio" name="q2" value="retorno"> Retorno al Jugador</label>
+                        <label><input type="radio" name="q2" value="ruleta"> Ruleta Total Premium</label>
+                    </div>
+                    <div class="pregunta">
+                        <p><strong>3. ¿Quién inventó la primera máquina tragamonedas mecánica?</strong></p>
+                        <label><input type="radio" name="q3" value="charles"> Charles Fey</label>
+                        <label><input type="radio" name="q3" value="thomas"> Thomas Edison</label>
+                        <label><input type="radio" name="q3" value="nikola"> Nikola Tesla</label>
+                    </div>
+                    <div class="pregunta">
+                        <p><strong>4. ¿Cuál es el casino más grande del mundo por superficie?</strong></p>
+                        <label><input type="radio" name="q4" value="venetian"> The Venetian (Macao)</label>
+                        <label><input type="radio" name="q4" value="bellagio"> Bellagio (Las Vegas)</label>
+                        <label><input type="radio" name="q4" value="winstar"> WinStar World (Oklahoma)</label>
+                    </div>
+                    <div class="pregunta">
+                        <p><strong>5. ¿Qué juego de mesa es conocido como "el rey de los casinos"?</strong></p>
+                        <label><input type="radio" name="q5" value="blackjack"> Blackjack</label>
+                        <label><input type="radio" name="q5" value="ruleta"> Ruleta</label>
+                        <label><input type="radio" name="q5" value="poker"> Póker</label>
+                    </div>
+                    <button type="submit" class="boton">Validar respuestas</button>
+                </form>
+            </div>
+        </main>
+    </div>
+
+    <button id="btnModoOscuro" class="boton-modo">🌙</button>
+    <button id="btnVolverArriba">⬆</button>
+    <script src="script.js"></script>
+</body>
+</html>

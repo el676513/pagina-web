@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
+    <meta http-equiv="Pragma" content="no-cache">
+    <meta http-equiv="Expires" content="0">
+    <title>Casino | Historia</title>
+    <link rel="stylesheet" href="estilos.css">
+    <style>
+        /* Solo estilos de disposición, sin colores forzados */
+        .timeline-item {
+            display: flex;
+            gap: 20px;
+            margin-bottom: 40px;
+            align-items: center;
+            flex-wrap: wrap;
+            border-bottom: 1px solid rgba(204, 0, 0, 0.3);
+            padding-bottom: 20px;
+        }
+        .timeline-item img {
+            width: 200px;
+            border-radius: 15px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+            border: 2px solid #cc0000;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header class="header-principal">
+            <h1> CASINO </h1>
+            <!-- Menú sin lista -->
+            <div class="nav-pestanas">
+                <a href="index.html" class="pestana-link"> INICIO</a>
+                <a href="historia.html" class="pestana-link activo"> HISTORIA</a>
+                <a href="tabla.html" class="pestana-link"> SLOTS</a>
+                <a href="formulario.html" class="pestana-link"> REGISTRO VIP</a>
+                <a href="multimedia.html" class="pestana-link"> MULTIMEDIA</a>
+                <a href="crud-completo.html" class="pestana-link"> CRUD JUEGOS</a>
+            </div>
+        </header>
+
+        <main class="seccion-principal">
+            <h2>Evolución de los Casinos</h2>
+
+            <!-- 1. Origen -->
+            <div class="timeline-item">
+                <img src="img/casino.png" alt="Casino antiguo">
+                <div>
+                    <h3> Origen (siglo XVII)</h3>
+                    <p>El primer casino oficial, el Ridotto, abrió en Venecia en 1638. Juegos de azar controlados por el estado.</p>
+                </div>
+            </div>
+
+            <!-- 2. Era tragamonedas -->
+            <div class="timeline-item">
+                <div>
+                    <h3> Era de las tragamonedas (1895)</h3>
+                    <p>Charles Fey inventa la "Liberty Bell", la primera máquina tragamonedas mecánica.</p>
+                </div>
+                <img src="img/monedas.jpg" alt="Tragamonedas antigua">
+            </div>
+
+            <!-- 3. Las Vegas -->
+            <div class="timeline-item">
+                <img src="img/vegas.jpg" alt="Las Vegas">
+                <div>
+                    <h3> Las Vegas (1940 - actualidad)</h3>
+                    <p>La meca del juego mundial. Megacasinos, espectáculos y jackpots millonarios.</p>
+                </div>
+            </div>
+
+            <!-- Video opcional -->
+            <div class="video-container" style="text-align:center; margin-top:40px;">
+                <h2> Documental"</h2>
+                <a href="https://www.youtube.com/watch?v=8yElk-sAc7Q" id="linkYoutubeExterno" class="boton" target="_blank">▶️ Ver en YouTube</a>
+                <p style="margin-top: 15px;">"El riesgo es la chispa de la fortuna"</p>
+            </div>
+        </main>
+    </div>
+
+    <button id="btnModoOscuro" class="boton-modo">🌙</button>
+    <button id="btnVolverArriba">⬆</button>
+    <script src="script.js"></script>
+</body>
+</html>

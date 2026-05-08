@@ -1,0 +1,330 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Royal Casino | CRUD Productos</title>
+    <link rel="stylesheet" href="estilos.css">
+    <style>
+        /* Estilos específicos para el CRUD */
+        .crud-container {
+            max-width: 1000px;
+            margin: 0 auto;
+        }
+        .formulario-crud {
+            background: rgba(0,0,0,0.7);
+            padding: 20px;
+            border-radius: 20px;
+            margin-bottom: 30px;
+            border: 1px solid #cc0000;
+        }
+        .formulario-crud input {
+            width: calc(33% - 10px);
+            margin: 5px;
+            padding: 8px;
+            border-radius: 6px;
+            border: none;
+        }
+        .formulario-crud button {
+            margin: 5px;
+        }
+        .tabla-crud {
+            width: 100%;
+            background: rgba(0,0,0,0.7);
+            border-radius: 20px;
+            overflow: hidden;
+        }
+        .tabla-crud th, .tabla-crud td {
+            padding: 12px;
+            text-align: left;
+            border-bottom: 1px solid #cc0000;
+        }
+        .tabla-crud th {
+            background: #cc0000;
+            color: white;
+        }
+        .mensaje-flotante {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            background: #27ae60;
+            color: white;
+            padding: 12px 20px;
+            border-radius: 30px;
+            z-index: 2000;
+            transition: 0.3s;
+        }
+        .mensaje-error {
+            background: #e74c3c;
+        }
+        .editar-btn {
+            background: #f39c12;
+            border: none;
+            padding: 5px 10px;
+            border-radius: 5px;
+            cursor: pointer;
+            color: white;
+        }
+        .eliminar-btn {
+            background: #e74c3c;
+            border: none;
+            padding: 5px 10px;
+            border-radius: 5px;
+            cursor: pointer;
+            margin-left: 5px;
+            color: white;
+        }
+        .boton-cancelar {
+            background: #666 !important;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header class="header-principal">
+            <h1> CASINO </h1>
+            <div class="nav-pestanas">
+                <a href="index.html" class="pestana-link"> INICIO</a>
+                <a href="historia.html" class="pestana-link"> HISTORIA</a>
+                <a href="tabla.html" class="pestana-link"> SLOTS</a>
+                <a href="formulario.html" class="pestana-link"> REGISTRO VIP</a>
+                <a href="multimedia.html" class="pestana-link"> MULTIMEDIA</a>
+                <a href="crud-completo.html" class="pestana-link activo"> CRUD PRODUCTOS</a>
+            </div>
+        </header>
+
+        <main class="seccion-principal crud-container">
+            <h2> Gestión de Productos del Casino</h2>
+
+            <!-- Formulario para crear/editar -->
+            <div class="formulario-crud">
+                <h3 id="formTitulo">➕ Agregar nuevo producto</h3>
+                <input type="hidden" id="productoId">
+                <input type="text" id="nombre" placeholder="Nombre del producto" required>
+                <input type="number" id="precio" step="0.01" placeholder="Precio (USD)" required>
+                <input type="text" id="categoria" placeholder="Categoría" required>
+                <button id="btnGuardar" class="boton">💾 Guardar</button>
+                <button id="btnCancelar" class="boton boton-cancelar" style="display:none;">❌ Cancelar</button>
+            </div>
+
+            <!-- Tabla de productos -->
+            <h3> Lista de productos</h3>
+            <table class="tabla-crud" id="tablaProductos">
+                <thead>
+                    <tr><th>ID</th><th>Nombre</th><th>Precio</th><th>Categoría</th><th>Acciones</th></tr>
+                </thead>
+                <tbody id="cuerpoTabla">
+                    <tr><td colspan="5">Cargando...</td></tr>
+                </tbody>
+            </table>
+        </main>
+    </div>
+
+    <button id="btnModoOscuro" class="boton-modo">🌙</button>
+    <button id="btnVolverArriba">⬆️</button>
+
+    <script>
+        // ==================== CRUD COMPLETO (VERSIÓN CON NÚMEROS SECUENCIALES VISUALES) ====================
+        let modoEdicion = false;
+        let editandoId = null;
+
+        const tbody = document.getElementById('cuerpoTabla');
+        const btnGuardar = document.getElementById('btnGuardar');
+        const btnCancelar = document.getElementById('btnCancelar');
+        const inputId = document.getElementById('productoId');
+        const inputNombre = document.getElementById('nombre');
+        const inputPrecio = document.getElementById('precio');
+        const inputCategoria = document.getElementById('categoria');
+        const formTitulo = document.getElementById('formTitulo');
+
+        // Mensajes flotantes
+        function mostrarMensaje(texto, esError = false) {
+            const div = document.createElement('div');
+            div.className = `mensaje-flotante ${esError ? 'mensaje-error' : ''}`;
+            div.textContent = texto;
+            document.body.appendChild(div);
+            setTimeout(() => div.remove(), 3000);
+        }
+
+        // Cargar todos los productos (GET)
+        async function cargarProductos() {
+            try {
+                const res = await fetch('/api/productos');
+                const data = await res.json();
+                if (data.success) {
+                    renderizarTabla(data.productos);
+                } else {
+                    tbody.innerHTML = '<tr><td colspan="5">Error al cargar productos</td></tr>';
+                }
+            } catch (error) {
+                console.error(error);
+                tbody.innerHTML = '<tr><td colspan="5">Error de conexión con el servidor</td></tr>';
+                mostrarMensaje('No se puede conectar al servidor', true);
+            }
+        }
+
+        // Renderizar tabla mostrando números correlativos (1,2,3...) pero usando _id para las acciones
+        function renderizarTabla(productos) {
+            if (!productos.length) {
+                tbody.innerHTML = '<tr><td colspan="5">No hay productos registrados</td></tr>';
+                return;
+            }
+            tbody.innerHTML = '';
+            let contador = 1;   // Número visual correlativo
+            productos.forEach(prod => {
+                const fila = document.createElement('tr');
+                fila.innerHTML = `
+                    <td>${contador++}</td>
+                    <td>${prod.nombre}</td>
+                    <td>$${prod.precio.toFixed(2)}</td>
+                    <td>${prod.categoria}</td>
+                    <td>
+                        <button class="editar-btn" data-id="${prod._id}">✏️ Editar</button>
+                        <button class="eliminar-btn" data-id="${prod._id}">🗑️ Eliminar</button>
+                    </td>
+                `;
+                tbody.appendChild(fila);
+            });
+            // Asignar eventos a los botones dinámicos
+            document.querySelectorAll('.editar-btn').forEach(btn => {
+                btn.addEventListener('click', () => cargarProductoParaEditar(btn.dataset.id));
+            });
+            document.querySelectorAll('.eliminar-btn').forEach(btn => {
+                btn.addEventListener('click', () => eliminarProducto(btn.dataset.id));
+            });
+        }
+
+        // Cargar producto para editar (GET by id)
+        async function cargarProductoParaEditar(id) {
+            try {
+                const res = await fetch(`/api/productos/${id}`);
+                const data = await res.json();
+                if (data.success) {
+                    const prod = data.producto;
+                    inputId.value = prod._id;
+                    inputNombre.value = prod.nombre;
+                    inputPrecio.value = prod.precio;
+                    inputCategoria.value = prod.categoria;
+                    modoEdicion = true;
+                    editandoId = prod._id;
+                    formTitulo.textContent = '✏️ Editando producto';
+                    btnGuardar.textContent = '🔄 Actualizar';
+                    btnCancelar.style.display = 'inline-block';
+                } else {
+                    mostrarMensaje('Producto no encontrado', true);
+                }
+            } catch (error) {
+                mostrarMensaje('Error al cargar el producto', true);
+            }
+        }
+
+        // Guardar (crear o actualizar)
+        async function guardarProducto() {
+            const nombre = inputNombre.value.trim();
+            const precio = parseFloat(inputPrecio.value);
+            const categoria = inputCategoria.value.trim();
+
+            if (!nombre || isNaN(precio) || !categoria) {
+                mostrarMensaje('Completa todos los campos correctamente', true);
+                return;
+            }
+
+            if (modoEdicion) {
+                // PUT actualizar
+                try {
+                    const res = await fetch(`/api/productos/${editandoId}`, {
+                        method: 'PUT',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify({ nombre, precio, categoria })
+                    });
+                    const data = await res.json();
+                    if (data.success) {
+                        mostrarMensaje('Producto actualizado correctamente');
+                        resetFormulario();
+                        cargarProductos();
+                    } else {
+                        mostrarMensaje('Error al actualizar', true);
+                    }
+                } catch (error) {
+                    mostrarMensaje('Error de conexión', true);
+                }
+            } else {
+                // POST crear
+                try {
+                    const res = await fetch('/api/productos', {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify({ nombre, precio, categoria })
+                    });
+                    const data = await res.json();
+                    if (data.success) {
+                        mostrarMensaje('Producto creado exitosamente');
+                        resetFormulario();
+                        cargarProductos();
+                    } else {
+                        mostrarMensaje('Error al crear producto', true);
+                    }
+                } catch (error) {
+                    mostrarMensaje('Error de conexión', true);
+                }
+            }
+        }
+
+        // Eliminar producto (DELETE)
+        async function eliminarProducto(id) {
+            if (!confirm('¿Estás seguro de eliminar este producto permanentemente?')) return;
+            try {
+                const res = await fetch(`/api/productos/${id}`, { method: 'DELETE' });
+                const data = await res.json();
+                if (data.success) {
+                    mostrarMensaje('Producto eliminado correctamente');
+                    cargarProductos();
+                    if (modoEdicion && editandoId == id) resetFormulario();
+                } else {
+                    mostrarMensaje('Error al eliminar', true);
+                }
+            } catch (error) {
+                mostrarMensaje('Error de conexión', true);
+            }
+        }
+
+        // Resetear formulario
+        function resetFormulario() {
+            modoEdicion = false;
+            editandoId = null;
+            inputId.value = '';
+            inputNombre.value = '';
+            inputPrecio.value = '';
+            inputCategoria.value = '';
+            formTitulo.textContent = '➕ Agregar nuevo producto';
+            btnGuardar.textContent = '💾 Guardar';
+            btnCancelar.style.display = 'none';
+        }
+
+        // Eventos
+        btnGuardar.addEventListener('click', guardarProducto);
+        btnCancelar.addEventListener('click', resetFormulario);
+
+        // ==================== MODO OSCURO Y OTROS ====================
+        const btnModo = document.getElementById('btnModoOscuro');
+        if (btnModo) {
+            if (localStorage.getItem('modo') === 'oscuro') document.body.classList.add('modo-oscuro');
+            btnModo.addEventListener('click', () => {
+                document.body.classList.toggle('modo-oscuro');
+                localStorage.setItem('modo', document.body.classList.contains('modo-oscuro') ? 'oscuro' : 'claro');
+            });
+        }
+
+        const btnArriba = document.getElementById('btnVolverArriba');
+        if (btnArriba) {
+            window.addEventListener('scroll', () => {
+                btnArriba.style.display = window.scrollY > 200 ? 'flex' : 'none';
+            });
+            btnArriba.addEventListener('click', () => window.scrollTo({ top: 0, behavior: 'smooth' }));
+        }
+
+        // Inicializar
+        cargarProductos();
+    </script>
+</body>
+</html>
