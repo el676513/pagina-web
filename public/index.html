@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
+    <meta http-equiv="Pragma" content="no-cache">
+    <meta http-equiv="Expires" content="0">
+    <title>Royal Casino | Inicio</title>
+    <link rel="stylesheet" href="estilos.css">
+</head>
+<body>
+    <div class="container">
+        <header class="header-principal">
+            <h1> CASINO </h1>
+            <div class="nav-pestanas">
+                <a href="index.html" class="pestana-link activo"> INICIO</a>
+                <a href="historia.html" class="pestana-link"> HISTORIA</a>
+                <a href="tabla.html" class="pestana-link"> SLOTS</a>
+                <a href="formulario.html" class="pestana-link"> REGISTRO VIP</a>
+                <a href="multimedia.html" class="pestana-link"> MULTIMEDIA</a>
+                <a href="crud-completo.html" class="pestana-link"> CRUD PRODUCTOS</a>
+            </div>
+        </header>
+        <main class="seccion-principal">
+            <h2>La suerte está de tu lado</h2>
+            <p>Vive la emoción del mejor casino online. Tragamonedas, póker, ruleta y jackpots millonarios. ¡Regístrate y recibe <strong>$500 de bono de bienvenida</strong>!</p>
+            <div style="margin-top: 30px;">
+                <h3> Comentarios de los jugadores</h3>
+                <input type="text" id="nuevoComentario" placeholder="¿Cuál es tu juego favorito?">
+                <button id="agregarComentario" class="boton">Comentar</button>
+                <ul id="listaComentarios" style="margin-top: 15px; list-style: none;">
+                    <li>¡Gané 2000€ en la tragamonedas Starburst!  <button onclick="this.parentElement.remove()" style="color:red; background:none; border:none; cursor:pointer;">❌</button></li>
+                </ul>
+            </div>
+            <div class="likes-container">
+                <button id="btnMeGusta" class="boton">❤️ Me gusta este casino</button>
+                <p>Total de likes: <span id="contadorLike">0</span></p>
+            </div>
+        </main>
+    </div>
+    <button id="btnModoOscuro" class="boton-modo">🌙</button>
+    <button id="btnVolverArriba">⬆</button>
+    <script src="script.js"></script>
+</body>
+</html>

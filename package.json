@@ -1,0 +1,20 @@
+{
+  "name": "casino",
+  "version": "1.0.0",
+  "description": "Aplicación web completa con CRUD y MongoDB",
+  "main": "server/server.js",
+  "scripts": {
+    "start": "node server/server.js",
+    "dev": "nodemon server/server.js"
+  },
+  "keywords": [],
+  "author": "Edwin Lopez",
+  "license": "ISC",
+  "dependencies": {
+    "cors": "^2.8.6",
+    "dotenv": "^17.4.2",
+    "express": "^5.2.1",
+    "mongodb": "^7.2.0",
+    "mongoose": "^9.6.1"
+  }
+}
